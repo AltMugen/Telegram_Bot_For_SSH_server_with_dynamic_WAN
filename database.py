@@ -44,3 +44,17 @@ class Database:
             ''', (user_id,)) as cursor:
                 return await cursor.fetchone() is not None
 
+    async def get_all_users(self):
+        async with aiosqlite.connect(self.db_name) as db:
+            async with db.execute('''
+                SELECT user_id FROM users
+            ''') as cursor:
+                rows = await cursor.fetchall()
+                return [row[0] for row in rows]
+
+    async def remove_user(self, user_id):
+        async with aiosqlite.connect(self.db_name) as db:
+            await db.execute('''
+                DELETE FROM users WHERE user_id = ?
+            ''', (user_id,))
+            await db.commit()

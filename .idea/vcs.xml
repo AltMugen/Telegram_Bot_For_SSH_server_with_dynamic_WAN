@@ -2,6 +2,5 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Telegram_Bot_For_SSH_server_with_dynamic_WAN" vcs="Git" />
   </component>
 </project>

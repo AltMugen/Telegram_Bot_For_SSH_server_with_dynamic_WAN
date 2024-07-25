@@ -1,18 +1,21 @@
 # Локальный IP устройства
 local_ip = "192.168.100.6"
 # Открытый ssh порт
-local_port = 22
+local_port = 1310
 # Порт на который идёт переброс
-wan_port = 22
+wan_port = 1310
 
 # Bot token
-API_TOKEN = ""
+API_TOKEN = "7127237047:AAG5gD5DMENkCb0uGPbxCjJQI38MDG-yhx4"
 
 # Название базы данных для хранения настроек
 DB_NAME = 'bot.db'
 
 # ID пользователя администратора бота(id телеграм можно взять у https://t.me/username_to_id_bot)
-ADMIN_ID = ''
+ADMIN_ID = '720498907'
 
 # Текст - уведомление что пользователь не имеет прав для пользования этим ботом
 error_auth = "У вас нет прав на пользование этим ботом!"
+
+# Файл с предыдущим WAN
+WAN_IP_FILE = 'wan_ip.txt'
