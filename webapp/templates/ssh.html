@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSH Console</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/xterm/4.11.0/xterm.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xterm/4.11.0/xterm.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xterm/4.11.0/addons/fit/fit.min.js"></script>
+    <script>
+        function startTimer(duration, display) {
+            var timer = duration, minutes, seconds;
+            setInterval(function () {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.textContent = minutes + ":" + seconds;
+
+                if (--timer < 0) {
+                    timer = 0;
+                }
+            }, 1000);
+        }
+
+        window.onload = function () {
+            var duration = {{ remaining_time|int }};
+            var display = document.querySelector('#time');
+            startTimer(duration, display);
+
+            const terminal = new Terminal();
+            const fitAddon = new FitAddon.FitAddon();
+            terminal.loadAddon(fitAddon);
+            terminal.open(document.getElementById('terminal'));
+            fitAddon.fit();
+
+            // Инициализация WebSocket соединения
+            const socket = new WebSocket('ws://' + window.location.host + '/ws/ssh');
+            socket.onopen = () => {
+                terminal.writeln('Connected to SSH server');
+            };
+            socket.onmessage = (event) => {
+                terminal.write(event.data);
+            };
+            terminal.onData(data => {
+                socket.send(data);
+            });
+        };
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="timer-container">
+            <span id="time"></span>
+        </div>
+        <div id="terminal" style="width: 100%; height: 80%;"></div>
+    </div>
+</body>
+</html>

@@ -1,9 +1,10 @@
+#bot.py
 import asyncio
 from telebot.async_telebot import AsyncTeleBot
 from telebot import types
 from config import API_TOKEN, ADMIN_ID
 from handlers import (
-    start_handler, handle_buttons, add_user_handler, remove_user_handler, force_port_forwarding_handler
+    start_handler, handle_buttons,  #get_token_handler, webapp_ssh_ftp_handler
 )
 from database import Database
 
@@ -13,18 +14,14 @@ db = Database('bot.db')
 @bot.message_handler(commands=['start'])
 async def start(message):
     await start_handler(bot, message)
-#
-# @bot.message_handler(commands=['add_user'])
-# async def add_user(message):
-#     await add_user_handler(bot, message)
-#
-# @bot.message_handler(commands=['remove_user'])
-# async def remove_user(message):
-#     await remove_user_handler(bot, message)
-#
-# @bot.message_handler(commands=['force_forward'])
-# async def force_forward(message):
-#     await force_port_forwarding_handler(bot, message)
+
+# @bot.message_handler(commands=['get_token'])
+# async def get_token(message):
+#     await get_token_handler(bot, message)
+
+# @bot.message_handler(commands=['webapp_ssh_ftp'])
+# async def webapp_ssh_ftp(message):
+#     await webapp_ssh_ftp_handler(bot, message)
 
 @bot.message_handler(func=lambda message: True, content_types=['text'])
 async def handle_message(message):

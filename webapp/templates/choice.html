@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose SSH or FTP</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script>
+        function startTimer(duration, display) {
+            var timer = duration, minutes, seconds;
+            setInterval(function () {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.textContent = minutes + ":" + seconds;
+
+                if (--timer < 0) {
+                    timer = 0;
+                }
+            }, 1000);
+        }
+
+        window.onload = function () {
+            var duration = {{ remaining_time|int }};
+            var display = document.querySelector('#time');
+            startTimer(duration, display);
+        };
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="timer-container">
+            <span id="time"></span>
+        </div>
+        <div class="button-container">
+            <h1>Choose SSH or FTP</h1>
+            <form method="post" action="/ssh">
+                <button type="submit">SSH</button>
+            </form>
+            <form method="post" action="/ftp">
+                <button type="submit">FTP</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
