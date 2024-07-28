@@ -1,10 +1,10 @@
-#bot.py
+# bot.py
 import asyncio
 from telebot.async_telebot import AsyncTeleBot
 from telebot import types
 from config import API_TOKEN, ADMIN_ID
 from handlers import (
-    start_handler, handle_buttons,  #get_token_handler, webapp_ssh_ftp_handler
+    start_handler, handle_buttons,  # get_token_handler, webapp_ssh_ftp_handler
 )
 from database import Database
 
@@ -33,7 +33,12 @@ async def on_startup():
 
 async def main():
     await on_startup()
-    await bot.polling()
+    while True:
+        try:
+            await bot.polling()
+        except Exception as e:
+            print(f"Polling error: {e}")
+            await asyncio.sleep(5)  # Ждем 5 секунд перед повторной попыткой
 
 if __name__ == '__main__':
     asyncio.run(main())
